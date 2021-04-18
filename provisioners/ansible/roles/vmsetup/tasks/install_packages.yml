@@ -1,0 +1,15 @@
+---
+- name: Install standard software
+  yum:
+    name:
+      - git
+      - python
+      - rpm-build
+      - gcc
+      - openssl-devel
+      - tcp_wrappers-devel
+      - bind-utils
+      - traceroute
+  tags:
+    - centos
+    - common

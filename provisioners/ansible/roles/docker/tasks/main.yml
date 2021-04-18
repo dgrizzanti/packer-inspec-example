@@ -1,0 +1,60 @@
+---
+# tasks file for docker installation
+
+ - name: create docker directory in /docker
+   file:
+     path: /docker
+     state: directory
+   tags: mount_docker_fs
+
+ - name: Install yum utils
+   yum: name=yum-utils state=present
+   tags: install_docker
+
+ - name: Ensure docker repo exists
+   copy: src=docker.repo dest={{ docker_repo }}
+   tags: install_docker
+
+ - name: install docker
+   yum: name={{ docker_ce }} enablerepo=docker-ce-stable state=present
+   tags: install_docker
+
+ - name: Ensure docker.service content
+   template: src=docker.service dest={{ docker_service_loc }}
+   notify:
+       - reload systemctl daemon
+       - restart docker
+   tags: install_docker
+
+ - name: Copy docker.service to /etc/systemd/system/
+   template: src=docker.service dest={{ docker_systemd_loc }}/docker.service
+   notify:
+       - reload systemctl daemon
+       - restart docker
+   tags: install_docker
+
+ - name: copy docker-cleanup script
+   copy: src=docker-cleanup dest={{ cron_daily }} mode=0755
+   tags: install_docker
+
+ - name: start docker and enable on boot
+   service: name=docker state=started enabled=yes
+   tags: install_docker
+
+ - name: Download and install docker-compose
+   get_url:
+    url: https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+   tags: install_docker_compose
+
+ - name: Makes the Compose binary executable
+   shell: chmod +x /usr/local/bin/docker-compose
+   tags: install_docker_compose
+
+ # Set ip forwarding on in /proc and in the sysctl file and reload
+ - sysctl:
+     name: net.ipv4.ip_forward
+     value: 1
+     sysctl_set: yes
+     state: present
+     reload: yes

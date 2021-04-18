@@ -1,0 +1,5 @@
+---
+# tasks file for vmsetup
+- include: install_packages.yml
+- include: aws.yml
+- include: logrotate.yml

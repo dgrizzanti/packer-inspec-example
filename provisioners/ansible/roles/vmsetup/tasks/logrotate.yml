@@ -1,0 +1,4 @@
+---
+- name: Copy logrotate.conf configuration
+  copy: src=logrotate.conf dest=/etc/logrotate.conf mode=0644
+  tags: logrotate

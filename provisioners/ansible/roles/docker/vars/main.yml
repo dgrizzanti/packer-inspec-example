@@ -1,0 +1,11 @@
+---
+# vars file for Docker
+docker_repo: /etc/yum.repos.d/docker.repo
+docker_ce: docker-ce
+log_rotate: /etc/logrotate.d/
+docker_service_loc: /usr/lib/systemd/system/docker.service
+docker_systemd_loc: /etc/systemd/system
+cron_daily: /etc/cron.daily
+compose_version: 1.18.0
+#To add Docker driver set logstash driver
+#logstash_server: 

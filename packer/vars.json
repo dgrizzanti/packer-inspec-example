@@ -1,0 +1,7 @@
+{
+  "region": "us-east-1",
+  "vpc_id": "",
+  "subnet_id": "",
+  "src_ami_owner": "679593333241",
+  "src_ami_name_prefix": "CentOS Linux 7 x86_64 HVM*"
+}
